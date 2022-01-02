@@ -7,6 +7,7 @@ import { GlitchPass } from 'three/examples/jsm/postprocessing/GlitchPass.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader.js';
 import * as dat from 'dat.gui'
+import MPRSSVFrame from './geometry/frame';
 
 
 // Globals
@@ -26,42 +27,11 @@ scene.background = blue
 // Objects
 // const geometry = new THREE.TorusGeometry(2.5, 0.3, 3, 4, Math.PI * 2)
 
-const frameGeometry = new THREE.PlaneBufferGeometry();
-const positionsArray = new Float32Array([
-    -1.0, -1.0, 1.0,
-    1.0, -1.0, 1.0,
-    1.0, 1.0, 1.0,
-    
-    -1.0, -1.0, 1.0, 
-    -1.0, 1.0, 1.0,    
-    1.0, 1.0, 1.0,           
-])
-frameGeometry.setAttribute('position', new THREE.BufferAttribute(positionsArray, 3))
-
-const frameGeometry2 = new THREE.PlaneBufferGeometry();
-const positionsArray2 = new Float32Array([
-    1.0, -1.0, -1.0,
-    -1.0, -1.0, -1.0,    
-    1.0, 1.0, -1.0,
-        
-    1.0, 1.0, -1.0,   
-    -1.0, 1.0, -1.0,
-    -1.0, -1.0, -1.0,     
-])
-frameGeometry2.setAttribute('position', new THREE.BufferAttribute(positionsArray2, 3))
-
-
-
-// Materials
-
-const material = new THREE.MeshPhongMaterial({wireframe: false, side: THREE.DoubleSide})
-material.color = new THREE.Color(0xffffff)
-
-// Mesh
-const box = new THREE.Mesh(frameGeometry,material)
-const box2 = new THREE.Mesh(frameGeometry2, new THREE.MeshPhongMaterial({color: new THREE.Color('skyblue')}))
-// box.rotation.z = Math.PI * 0.25
-scene.add(box, box2)
+const frame = new MPRSSVFrame;
+scene.add(frame.getFrame1());
+// scene.add(frame.getFrame2());
+// scene.add(frame.getFrame3());
+// scene.add(frame.getFrame4());
 
 // Fonts
 const fontLoader = new THREE.FontLoader()
@@ -127,7 +97,7 @@ fontLoader.load(
 
 // Lights
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.9)
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1)
 directionalLight.position.x = 2
 directionalLight.position.y = 5
 directionalLight.position.z = 5
@@ -162,9 +132,9 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = 0
-camera.position.y = 0
-camera.position.z = 6
+camera.position.x = 6
+camera.position.y = 3
+camera.position.z = 8
 scene.add(camera)
 
 // Controls
