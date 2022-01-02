@@ -24,17 +24,44 @@ const scene = new THREE.Scene()
 scene.background = blue
 
 // Objects
-const geometry = new THREE.TorusGeometry(2.5, 0.3, 3, 4, Math.PI * 2)
+// const geometry = new THREE.TorusGeometry(2.5, 0.3, 3, 4, Math.PI * 2)
+
+const frameGeometry = new THREE.PlaneBufferGeometry();
+const positionsArray = new Float32Array([
+    -1.0, -1.0, 1.0,
+    1.0, -1.0, 1.0,
+    1.0, 1.0, 1.0,
+    
+    -1.0, -1.0, 1.0, 
+    -1.0, 1.0, 1.0,    
+    1.0, 1.0, 1.0,           
+])
+frameGeometry.setAttribute('position', new THREE.BufferAttribute(positionsArray, 3))
+
+const frameGeometry2 = new THREE.PlaneBufferGeometry();
+const positionsArray2 = new Float32Array([
+    1.0, -1.0, -1.0,
+    -1.0, -1.0, -1.0,    
+    1.0, 1.0, -1.0,
+        
+    1.0, 1.0, -1.0,   
+    -1.0, 1.0, -1.0,
+    -1.0, -1.0, -1.0,     
+])
+frameGeometry2.setAttribute('position', new THREE.BufferAttribute(positionsArray2, 3))
+
+
 
 // Materials
 
-const material = new THREE.MeshPhongMaterial()
+const material = new THREE.MeshPhongMaterial({wireframe: false, side: THREE.DoubleSide})
 material.color = new THREE.Color(0xffffff)
 
 // Mesh
-const box = new THREE.Mesh(geometry,material)
-box.rotation.z = Math.PI * 0.25
-scene.add(box)
+const box = new THREE.Mesh(frameGeometry,material)
+const box2 = new THREE.Mesh(frameGeometry2, new THREE.MeshPhongMaterial({color: new THREE.Color('skyblue')}))
+// box.rotation.z = Math.PI * 0.25
+scene.add(box, box2)
 
 // Fonts
 const fontLoader = new THREE.FontLoader()
@@ -91,9 +118,9 @@ fontLoader.load(
         textGroup.position.y = -0.2
         textGroup.position.z = 0        
 
-        window.logo = textGroup
+        // window.logo = textGroup
         // scene.add(window.logo)
-        scene.add(window.inspireText)
+        // scene.add(window.inspireText)
     }
 )
 
@@ -102,10 +129,10 @@ fontLoader.load(
 
 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.9)
 directionalLight.position.x = 2
-directionalLight.position.y = 3
-directionalLight.position.z = 4
+directionalLight.position.y = 5
+directionalLight.position.z = 5
 const lightHelper = new THREE.DirectionalLightHelper(directionalLight, 2)
-scene.add(directionalLight)
+scene.add(directionalLight, lightHelper)
 
 /**
  * Sizes
@@ -137,12 +164,12 @@ window.addEventListener('resize', () =>
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.x = 0
 camera.position.y = 0
-camera.position.z = 5
+camera.position.z = 6
 scene.add(camera)
 
 // Controls
-// const controls = new OrbitControls(camera, canvas)
-// controls.enableDamping = true
+const controls = new OrbitControls(camera, canvas)
+controls.enableDamping = true
 
 /**
  * Renderer
