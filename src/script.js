@@ -7,7 +7,7 @@ import { GlitchPass } from 'three/examples/jsm/postprocessing/GlitchPass.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader.js';
 import * as dat from 'dat.gui'
-import MPRSSVFrame from './geometry/frame';
+import MPRSSVBoxFrame from './geometry/box-frame';
 
 
 // Globals
@@ -24,14 +24,24 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 scene.background = blue
 
+/**
+ * Axes Helper
+ */
+//  const axesHelper = new THREE.AxesHelper(2)
+//  scene.add(axesHelper)
+
 // Objects
 // const geometry = new THREE.TorusGeometry(2.5, 0.3, 3, 4, Math.PI * 2)
 
 const frame = new MPRSSVFrame;
-scene.add(frame.getFrame1());
+// scene.add(frame.getFrame1());
 // scene.add(frame.getFrame2());
 // scene.add(frame.getFrame3());
 // scene.add(frame.getFrame4());
+
+const boxFrame = new MPRSSVBoxFrame;
+const box = boxFrame.getFrame()
+scene.add(box);
 
 // Fonts
 const fontLoader = new THREE.FontLoader()
@@ -88,21 +98,21 @@ fontLoader.load(
         textGroup.position.y = -0.2
         textGroup.position.z = 0        
 
-        // window.logo = textGroup
+        window.logo = textGroup
         // scene.add(window.logo)
-        // scene.add(window.inspireText)
+        scene.add(window.inspireText)
     }
 )
 
 
 // Lights
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1)
+const directionalLight = new THREE.DirectionalLight(0xffffff, 2)
 directionalLight.position.x = 2
 directionalLight.position.y = 5
 directionalLight.position.z = 5
-const lightHelper = new THREE.DirectionalLightHelper(directionalLight, 2)
-scene.add(directionalLight, lightHelper)
+const lightHelper = new THREE.DirectionalLightHelper(directionalLight, 1)
+scene.add(directionalLight)
 
 /**
  * Sizes
@@ -132,14 +142,14 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = 6
-camera.position.y = 3
-camera.position.z = 8
+camera.position.x = 0
+camera.position.y = 0
+camera.position.z = 6
 scene.add(camera)
 
 // Controls
-const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true
+// const controls = new OrbitControls(camera, canvas)
+// controls.enableDamping = true
 
 /**
  * Renderer
