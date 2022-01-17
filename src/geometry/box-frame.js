@@ -13,10 +13,10 @@ export default class MPRSSVBoxFrame {
     }
 
     getFrame() {
-        const boxGeometry1 = new THREE.BoxGeometry(0.5, 3.5, 1) // right
-        const boxGeometry2 = new THREE.BoxGeometry(0.5, 5, 1) // top
-        const boxGeometry3 = new THREE.BoxGeometry(0.5, 3.5, 1) // left
-        const boxGeometry4 = new THREE.BoxGeometry(0.5, 5, 1) // bottom        
+        const boxGeometry1 = new THREE.BoxGeometry(0.5, 3.5, 0.25) // right
+        const boxGeometry2 = new THREE.BoxGeometry(0.5, 5, 0.25) // top
+        const boxGeometry3 = new THREE.BoxGeometry(0.5, 3.5, 0.25) // left
+        const boxGeometry4 = new THREE.BoxGeometry(0.5, 5, 0.25) // bottom        
 
         const box1 = new THREE.Mesh(boxGeometry1, this.boxFrameMaterial)
         box1.position.x = 2.25;        
