@@ -1,12 +1,6 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { GlitchPass } from 'three/examples/jsm/postprocessing/GlitchPass.js';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
-import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader.js';
-import { DigitalGlitchShader } from 'three/examples/js/shaders/DigitalGlitch.js'
 import * as dat from 'dat.gui'
 import MPRSSVBoxFrame from './geometry/box-frame';
 
@@ -98,8 +92,10 @@ fontLoader.load(
         textGroup.position.z = 0        
 
         window.logo = textGroup
-        // scene.add(window.logo)
-        scene.add(window.logo)
+        scene.add(window.inspireText)
+
+        text3.geometry.computeBoundingBox()
+        console.log(text3.geometry)
     }
 )
 
@@ -147,8 +143,8 @@ camera.position.z = 4
 scene.add(camera)
 
 // Controls
-// const controls = new OrbitControls(camera, canvas)
-// controls.enableDamping = true
+const controls = new OrbitControls(camera, canvas)
+controls.enableDamping = true
 
 /**
  * Renderer
@@ -174,10 +170,10 @@ bodyEl.style.height = sizes.height * twoPi + "px";
 let scrollY = window.scrollY
 let currentSection = 0
 
-window.addEventListener('scroll', () =>
-{
-     scrollY = window.scrollY * .0005;     
-})
+// window.addEventListener('scroll', () =>
+// {
+//      scrollY = window.scrollY * .0005;     
+// })
 
 const clock = new THREE.Clock()
 
@@ -186,34 +182,59 @@ const tick = () =>
 
     const elapsedTime = clock.getElapsedTime()
 
-    // Update objects
-    if(window.logo){
-        
-        box.rotation.y = scrollY
+    box.rotation.y = elapsedTime * 2
 
-        if(scrollY < 8186) {
-            scene.remove(window.imagineText)
-            // scene.add(window.inspireText)                        
-        }
-
-        if(scrollY > 8186 && scrollY < 14000) {
-            scene.remove(window.inspireText)
-            scene.remove(window.impressText)
-            scene.add(window.imagineText)
-        }
-
-        if(scrollY > 14000 && scrollY < 20000) {
-            scene.remove(window.imagineText)
-            scene.remove(window.logo)
-            scene.add(window.impressText)
-        }
-
-        if(scrollY > 20000) {
-            scene.remove(window.impressText)
-            scene.remove(window.inspireText)
-            scene.add(window.logo)
-        }
+    if(box.rotation.y > Math.PI * 2){
+        scene.remove(window.inspireText)
+        scene.add(window.imagineText)
     }
+
+    if(box.rotation.y > Math.PI * 4){
+        scene.remove(window.imagineText)
+        scene.add(window.impressText)
+    }
+
+    if(box.rotation.y > Math.PI * 6){
+        scene.remove(window.impressText)
+        scene.add(window.logo)        
+    }
+
+    // if(box.rotation.y > Math.PI * 7){
+        
+    //     if(window.logo.position.y < sizes.height){
+    //         window.logo.position.y = elapsedTime * .5;
+    //         window.logo.position.x = -elapsedTime * .5;
+    //     }
+    // }
+
+    // Update objects
+    // if(window.logo){
+        
+    //     box.rotation.y = scrollY
+
+    //     if(scrollY < 8186) {
+    //         scene.remove(window.imagineText)
+    //         // scene.add(window.inspireText)                        
+    //     }
+
+    //     if(scrollY > 8186 && scrollY < 14000) {
+    //         scene.remove(window.inspireText)
+    //         scene.remove(window.impressText)
+    //         scene.add(window.imagineText)
+    //     }
+
+    //     if(scrollY > 14000 && scrollY < 20000) {
+    //         scene.remove(window.imagineText)
+    //         scene.remove(window.logo)
+    //         scene.add(window.impressText)
+    //     }
+
+    //     if(scrollY > 20000) {
+    //         scene.remove(window.impressText)
+    //         scene.remove(window.inspireText)
+    //         scene.add(window.logo)
+    //     }
+    // }
 
     // Update Orbital Controls
     // controls.update()
